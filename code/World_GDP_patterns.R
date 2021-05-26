@@ -158,20 +158,28 @@ new_dataset$`Economy: Agriculture (% of GVA)`[is.na(new_dataset$`Economy: Agricu
 new_dataset$`Economy: Agriculture (% of GVA)`[is.na(new_dataset$`Economy: Agriculture (% of GVA)`) & new_dataset$Region == "Caribbean"] <- mean(!is.na(new_dataset$`Economy: Agriculture (% of GVA)`) & new_dataset$Region == "Caribbean")
 new_dataset$`Economy: Agriculture (% of GVA)`[is.na(new_dataset$`Economy: Agriculture (% of GVA)`) & new_dataset$Region == "SouthernEurope"] <- mean(!is.na(new_dataset$`Economy: Agriculture (% of GVA)`) & new_dataset$Region == "SouthernEurope")
 new_dataset$`Economy: Agriculture (% of GVA)`[is.na(new_dataset$`Economy: Agriculture (% of GVA)`) & new_dataset$Region == "NorthernEurope"] <- mean(!is.na(new_dataset$`Economy: Agriculture (% of GVA)`) & new_dataset$Region == "NorthernEurope")
+new_dataset$`Economy: Agriculture (% of GVA)`[is.na(new_dataset$`Economy: Agriculture (% of GVA)`) & new_dataset$Region == "WesternEurope"] <- mean(!is.na(new_dataset$`Economy: Agriculture (% of GVA)`) & new_dataset$Region == "WesternEurope")
 new_dataset$`Economy: Agriculture (% of GVA)`[is.na(new_dataset$`Economy: Agriculture (% of GVA)`) & new_dataset$Region == "SouthAmerica"] <- mean(!is.na(new_dataset$`Economy: Agriculture (% of GVA)`) & new_dataset$Region == "SouthAmerica")
 new_dataset$`Economy: Agriculture (% of GVA)`[is.na(new_dataset$`Economy: Agriculture (% of GVA)`) & new_dataset$Region == "NorthernAmerica"] <- mean(!is.na(new_dataset$`Economy: Agriculture (% of GVA)`) & new_dataset$Region == "NorthernAmerica")
 new_dataset$`Economy: Agriculture (% of GVA)`[is.na(new_dataset$`Economy: Agriculture (% of GVA)`) & new_dataset$Region == "Micronesia"] <- mean(!is.na(new_dataset$`Economy: Agriculture (% of GVA)`) & new_dataset$Region == "Micronesia")
 new_dataset$`Economy: Agriculture (% of GVA)`[is.na(new_dataset$`Economy: Agriculture (% of GVA)`) & new_dataset$Region == "EasternAfrica"] <- mean(!is.na(new_dataset$`Economy: Agriculture (% of GVA)`) & new_dataset$Region == "EasternAfrica")
 new_dataset$`Economy: Agriculture (% of GVA)`[is.na(new_dataset$`Economy: Agriculture (% of GVA)`) & new_dataset$Region == "WesternAfrica"] <- mean(!is.na(new_dataset$`Economy: Agriculture (% of GVA)`) & new_dataset$Region == "WesternAfrica")
 new_dataset$`Economy: Agriculture (% of GVA)`[is.na(new_dataset$`Economy: Agriculture (% of GVA)`) & new_dataset$Region == "NorthernAfrica"] <- mean(!is.na(new_dataset$`Economy: Agriculture (% of GVA)`) & new_dataset$Region == "NorthernAfrica")
-new_dataset$`Economy: Agriculture (% of GVA)`[is.na(new_dataset$`Economy: Agriculture (% of GVA)`) & new_dataset$Region == "WesternEurope"] <- mean(!is.na(new_dataset$`Economy: Agriculture (% of GVA)`) & new_dataset$Region == "WesternEurope")
 new_dataset$`Economy: Agriculture (% of GVA)`[is.na(new_dataset$`Economy: Agriculture (% of GVA)`) & new_dataset$Region == "EasternAsia"] <- mean(!is.na(new_dataset$`Economy: Agriculture (% of GVA)`) & new_dataset$Region == "EasternAsia")
 new_dataset$`Economy: Agriculture (% of GVA)`[is.na(new_dataset$`Economy: Agriculture (% of GVA)`) & new_dataset$Region == "South-easternAsia"] <- mean(!is.na(new_dataset$`Economy: Agriculture (% of GVA)`) & new_dataset$Region == "South-easternAsia")
 
 # Comprobamos que no queda ningún valor NA en la columna Economy: Agriculture
 new_dataset$country[is.na(new_dataset$`Economy: Agriculture (% of GVA)`)]
 
-# Transformamos los valores -99 a NA de la columna Economy: Industry
+paste("Valores extremos del peso de Industry sobre GVA:")
+
+# Comprobemos primero los outliers de esta columna
+boxplot.stats(new_dataset$`Economy: Industry (% of GVA)`)$out
+
+# Los únicos outliers detectados son campos de valores perdidos (-99).
+# Procedemos a comprobar de qué regiones se trata, y modificar los campos.
+new_dataset$country[new_dataset$`Economy: Industry (% of GVA)` == -99.000000]
+new_dataset$Region[new_dataset$`Economy: Industry (% of GVA)` == -99.000000]
 new_dataset$`Economy: Industry (% of GVA)`[new_dataset$`Economy: Industry (% of GVA)` == -99.000000] <- NA
 
 # Ahora, los reemplazamos por la media de Economy: Industry de su región respectiva:
@@ -186,6 +194,35 @@ new_dataset$`Economy: Industry (% of GVA)`[is.na(new_dataset$`Economy: Industry 
 new_dataset$`Economy: Industry (% of GVA)`[is.na(new_dataset$`Economy: Industry (% of GVA)`) & new_dataset$Region == "WesternAfrica"] <- mean(!is.na(new_dataset$`Economy: Industry (% of GVA)`) & new_dataset$Region == "WesternAfrica")
 new_dataset$`Economy: Industry (% of GVA)`[is.na(new_dataset$`Economy: Industry (% of GVA)`) & new_dataset$Region == "NorthernAfrica"] <- mean(!is.na(new_dataset$`Economy: Industry (% of GVA)`) & new_dataset$Region == "NorthernAfrica")
 
+# Comprobamos que no queda ningún valor NA en la columna Economy: Industry
+new_dataset$country[is.na(new_dataset$`Economy: Industry (% of GVA)`)]
+
+paste("Valores extremos del peso de Services and other activities sobre GVA:")
+
+# Comprobemos primero los outliers de esta columna
+boxplot.stats(new_dataset$`Economy: Services and other activity (% of GVA)`)$out
+
+# Excepto los valores -99, todos son razonables desde un punto de vista económico. Por tanto, los mantenemos.
+# Por otro lado, la columna dispone de campos -99 (valores perdidos). 
+# Procedemos a comprobar de qué regiones se trata, y modificar los campos.
+new_dataset$country[new_dataset$`Economy: Services and other activity (% of GVA)` == -99.000000]
+new_dataset$Region[new_dataset$`Economy: Services and other activity (% of GVA)` == -99.000000]
+new_dataset$`Economy: Services and other activity (% of GVA)`[new_dataset$`Economy: Services and other activity (% of GVA)` == -99.000000] <- NA
+
+# Ahora, los reemplazamos por la media de Economy: Services and other activity de su región respectiva:
+new_dataset$`Economy: Services and other activity (% of GVA)`[is.na(new_dataset$`Economy: Services and other activity (% of GVA)`) & new_dataset$Region == "Polynesia"] <- mean(!is.na(new_dataset$`Economy: Services and other activity (% of GVA)`) & new_dataset$Region == "Polynesia")
+new_dataset$`Economy: Services and other activity (% of GVA)`[is.na(new_dataset$`Economy: Services and other activity (% of GVA)`) & new_dataset$Region == "Caribbean"] <- mean(!is.na(new_dataset$`Economy: Services and other activity (% of GVA)`) & new_dataset$Region == "Caribbean")
+new_dataset$`Economy: Services and other activity (% of GVA)`[is.na(new_dataset$`Economy: Services and other activity (% of GVA)`) & new_dataset$Region == "SouthernEurope"] <- mean(!is.na(new_dataset$`Economy: Services and other activity (% of GVA)`) & new_dataset$Region == "SouthernEurope")
+new_dataset$`Economy: Services and other activity (% of GVA)`[is.na(new_dataset$`Economy: Services and other activity (% of GVA)`) & new_dataset$Region == "NorthernEurope"] <- mean(!is.na(new_dataset$`Economy: Services and other activity (% of GVA)`) & new_dataset$Region == "NorthernEurope")
+new_dataset$`Economy: Services and other activity (% of GVA)`[is.na(new_dataset$`Economy: Services and other activity (% of GVA)`) & new_dataset$Region == "SouthAmerica"] <- mean(!is.na(new_dataset$`Economy: Services and other activity (% of GVA)`) & new_dataset$Region == "SouthAmerica")
+new_dataset$`Economy: Services and other activity (% of GVA)`[is.na(new_dataset$`Economy: Services and other activity (% of GVA)`) & new_dataset$Region == "NorthernAmerica"] <- mean(!is.na(new_dataset$`Economy: Services and other activity (% of GVA)`) & new_dataset$Region == "NorthernAmerica")
+new_dataset$`Economy: Services and other activity (% of GVA)`[is.na(new_dataset$`Economy: Services and other activity (% of GVA)`) & new_dataset$Region == "Micronesia"] <- mean(!is.na(new_dataset$`Economy: Services and other activity (% of GVA)`) & new_dataset$Region == "Micronesia")
+new_dataset$`Economy: Services and other activity (% of GVA)`[is.na(new_dataset$`Economy: Services and other activity (% of GVA)`) & new_dataset$Region == "EasternAfrica"] <- mean(!is.na(new_dataset$`Economy: Services and other activity (% of GVA)`) & new_dataset$Region == "EasternAfrica")
+new_dataset$`Economy: Services and other activity (% of GVA)`[is.na(new_dataset$`Economy: Services and other activity (% of GVA)`) & new_dataset$Region == "WesternAfrica"] <- mean(!is.na(new_dataset$`Economy: Services and other activity (% of GVA)`) & new_dataset$Region == "WesternAfrica")
+new_dataset$`Economy: Services and other activity (% of GVA)`[is.na(new_dataset$`Economy: Services and other activity (% of GVA)`) & new_dataset$Region == "NorthernAfrica"] <- mean(!is.na(new_dataset$`Economy: Services and other activity (% of GVA)`) & new_dataset$Region == "NorthernAfrica")
+
+# Comprobamos que no queda ningún valor NA en la columna Economy: Services and other activity
+new_dataset$country[is.na(new_dataset$`Economy: Services and other activity (% of GVA)`)]
 
 # PUEDE QUE QUEDEN POR VER LOS OUTLIERS DE ALGUNA COLUMNA QUE NO TENÍA -99. REVISAR AL FINAL DE  LA LIMPIEZA
 ```
