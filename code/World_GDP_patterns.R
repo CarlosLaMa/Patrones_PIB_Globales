@@ -95,4 +95,87 @@ new_dataset$`GDP growth rate (annual %, const. 2005 prices)`[is.na(new_dataset$`
 
 # Comprobamos si queda alguna observación por transformar.
 paste(new_dataset$country[is.na(new_dataset$`GDP growth rate (annual %, const. 2005 prices)`)])
+
+# Transformamos los valores -99 a NA de la columna GDP.
+new_dataset$`GDP: Gross domestic product (million current US$)`[new_dataset$`GDP: Gross domestic product (million current US$)` == -99.000000] <- NA
+
+# Ahora, los reemplazamos por la media de GDP de su región respectiva:
+new_dataset$`GDP: Gross domestic product (million current US$)`[is.na(new_dataset$`GDP: Gross domestic product (million current US$)`) & new_dataset$Region == "Polynesia"] <- mean(!is.na(new_dataset$`GDP: Gross domestic product (million current US$)`) & new_dataset$Region == "Polynesia")
+new_dataset$`GDP: Gross domestic product (million current US$)`[is.na(new_dataset$`GDP: Gross domestic product (million current US$)`) & new_dataset$Region == "Caribbean"] <- mean(!is.na(new_dataset$`GDP: Gross domestic product (million current US$)`) & new_dataset$Region == "Caribbean")
+new_dataset$`GDP: Gross domestic product (million current US$)`[is.na(new_dataset$`GDP: Gross domestic product (million current US$)`) & new_dataset$Region == "SouthernEurope"] <- mean(!is.na(new_dataset$`GDP: Gross domestic product (million current US$)`) & new_dataset$Region == "SouthernEurope")
+new_dataset$`GDP: Gross domestic product (million current US$)`[is.na(new_dataset$`GDP: Gross domestic product (million current US$)`) & new_dataset$Region == "NorthernEurope"] <- mean(!is.na(new_dataset$`GDP: Gross domestic product (million current US$)`) & new_dataset$Region == "NorthernEurope")
+new_dataset$`GDP: Gross domestic product (million current US$)`[is.na(new_dataset$`GDP: Gross domestic product (million current US$)`) & new_dataset$Region == "SouthAmerica"] <- mean(!is.na(new_dataset$`GDP: Gross domestic product (million current US$)`) & new_dataset$Region == "SouthAmerica")
+new_dataset$`GDP: Gross domestic product (million current US$)`[is.na(new_dataset$`GDP: Gross domestic product (million current US$)`) & new_dataset$Region == "NorthernAmerica"] <- mean(!is.na(new_dataset$`GDP: Gross domestic product (million current US$)`) & new_dataset$Region == "NorthernAmerica")
+new_dataset$`GDP: Gross domestic product (million current US$)`[is.na(new_dataset$`GDP: Gross domestic product (million current US$)`) & new_dataset$Region == "Micronesia"] <- mean(!is.na(new_dataset$`GDP: Gross domestic product (million current US$)`) & new_dataset$Region == "Micronesia")
+new_dataset$`GDP: Gross domestic product (million current US$)`[is.na(new_dataset$`GDP: Gross domestic product (million current US$)`) & new_dataset$Region == "EasternAfrica"] <- mean(!is.na(new_dataset$`GDP: Gross domestic product (million current US$)`) & new_dataset$Region == "EasternAfrica")
+new_dataset$`GDP: Gross domestic product (million current US$)`[is.na(new_dataset$`GDP: Gross domestic product (million current US$)`) & new_dataset$Region == "WesternAfrica"] <- mean(!is.na(new_dataset$`GDP: Gross domestic product (million current US$)`) & new_dataset$Region == "WesternAfrica")
+new_dataset$`GDP: Gross domestic product (million current US$)`[is.na(new_dataset$`GDP: Gross domestic product (million current US$)`) & new_dataset$Region == "NorthernAfrica"] <- mean(!is.na(new_dataset$`GDP: Gross domestic product (million current US$)`) & new_dataset$Region == "NorthernAfrica")
+
+# Comprobamos que no queda ningún valor NA en la columna GDP
+new_dataset$country[is.na(new_dataset$`GDP: Gross domestic product (million current US$)`)]
+
+# Transformamos los valores -99 a NA de la columna GDP per capita
+new_dataset$`GDP per capita (current US$)`[new_dataset$`GDP per capita (current US$)` == -99.000000] <- NA
+
+# Ahora, los reemplazamos por la media de GDP per capita de su región respectiva:
+new_dataset$`GDP per capita (current US$)`[is.na(new_dataset$`GDP per capita (current US$)`) & new_dataset$Region == "Polynesia"] <- mean(!is.na(new_dataset$`GDP per capita (current US$)`) & new_dataset$Region == "Polynesia")
+new_dataset$`GDP per capita (current US$)`[is.na(new_dataset$`GDP per capita (current US$)`) & new_dataset$Region == "Caribbean"] <- mean(!is.na(new_dataset$`GDP per capita (current US$)`) & new_dataset$Region == "Caribbean")
+new_dataset$`GDP per capita (current US$)`[is.na(new_dataset$`GDP per capita (current US$)`) & new_dataset$Region == "SouthernEurope"] <- mean(!is.na(new_dataset$`GDP per capita (current US$)`) & new_dataset$Region == "SouthernEurope")
+new_dataset$`GDP per capita (current US$)`[is.na(new_dataset$`GDP per capita (current US$)`) & new_dataset$Region == "NorthernEurope"] <- mean(!is.na(new_dataset$`GDP per capita (current US$)`) & new_dataset$Region == "NorthernEurope")
+new_dataset$`GDP per capita (current US$)`[is.na(new_dataset$`GDP per capita (current US$)`) & new_dataset$Region == "SouthAmerica"] <- mean(!is.na(new_dataset$`GDP per capita (current US$)`) & new_dataset$Region == "SouthAmerica")
+new_dataset$`GDP per capita (current US$)`[is.na(new_dataset$`GDP per capita (current US$)`) & new_dataset$Region == "NorthernAmerica"] <- mean(!is.na(new_dataset$`GDP per capita (current US$)`) & new_dataset$Region == "NorthernAmerica")
+new_dataset$`GDP per capita (current US$)`[is.na(new_dataset$`GDP per capita (current US$)`) & new_dataset$Region == "Micronesia"] <- mean(!is.na(new_dataset$`GDP per capita (current US$)`) & new_dataset$Region == "Micronesia")
+new_dataset$`GDP per capita (current US$)`[is.na(new_dataset$`GDP per capita (current US$)`) & new_dataset$Region == "EasternAfrica"] <- mean(!is.na(new_dataset$`GDP per capita (current US$)`) & new_dataset$Region == "EasternAfrica")
+new_dataset$`GDP per capita (current US$)`[is.na(new_dataset$`GDP per capita (current US$)`) & new_dataset$Region == "WesternAfrica"] <- mean(!is.na(new_dataset$`GDP per capita (current US$)`) & new_dataset$Region == "WesternAfrica")
+new_dataset$`GDP per capita (current US$)`[is.na(new_dataset$`GDP per capita (current US$)`) & new_dataset$Region == "NorthernAfrica"] <- mean(!is.na(new_dataset$`GDP per capita (current US$)`) & new_dataset$Region == "NorthernAfrica")
+
+# Comprobamos que no queda ningún valor NA en la columna GDP per capita
+new_dataset$country[is.na(new_dataset$`GDP per capita (current US$)`)]
+
+# Transformamos los valores -99 a NA de la columna Economy: Agriculture
+new_dataset$`Economy: Agriculture (% of GVA)`[new_dataset$`Economy: Agriculture (% of GVA)` == -99.000000] <- NA
+
+# Ahora, los reemplazamos por la media de Economy: Agriculture de su región respectiva:
+new_dataset$`Economy: Agriculture (% of GVA)`[is.na(new_dataset$`Economy: Agriculture (% of GVA)`) & new_dataset$Region == "Polynesia"] <- mean(!is.na(new_dataset$`Economy: Agriculture (% of GVA)`) & new_dataset$Region == "Polynesia")
+new_dataset$`Economy: Agriculture (% of GVA)`[is.na(new_dataset$`Economy: Agriculture (% of GVA)`) & new_dataset$Region == "Caribbean"] <- mean(!is.na(new_dataset$`Economy: Agriculture (% of GVA)`) & new_dataset$Region == "Caribbean")
+new_dataset$`Economy: Agriculture (% of GVA)`[is.na(new_dataset$`Economy: Agriculture (% of GVA)`) & new_dataset$Region == "SouthernEurope"] <- mean(!is.na(new_dataset$`Economy: Agriculture (% of GVA)`) & new_dataset$Region == "SouthernEurope")
+new_dataset$`Economy: Agriculture (% of GVA)`[is.na(new_dataset$`Economy: Agriculture (% of GVA)`) & new_dataset$Region == "NorthernEurope"] <- mean(!is.na(new_dataset$`Economy: Agriculture (% of GVA)`) & new_dataset$Region == "NorthernEurope")
+new_dataset$`Economy: Agriculture (% of GVA)`[is.na(new_dataset$`Economy: Agriculture (% of GVA)`) & new_dataset$Region == "SouthAmerica"] <- mean(!is.na(new_dataset$`Economy: Agriculture (% of GVA)`) & new_dataset$Region == "SouthAmerica")
+new_dataset$`Economy: Agriculture (% of GVA)`[is.na(new_dataset$`Economy: Agriculture (% of GVA)`) & new_dataset$Region == "NorthernAmerica"] <- mean(!is.na(new_dataset$`Economy: Agriculture (% of GVA)`) & new_dataset$Region == "NorthernAmerica")
+new_dataset$`Economy: Agriculture (% of GVA)`[is.na(new_dataset$`Economy: Agriculture (% of GVA)`) & new_dataset$Region == "Micronesia"] <- mean(!is.na(new_dataset$`Economy: Agriculture (% of GVA)`) & new_dataset$Region == "Micronesia")
+new_dataset$`Economy: Agriculture (% of GVA)`[is.na(new_dataset$`Economy: Agriculture (% of GVA)`) & new_dataset$Region == "EasternAfrica"] <- mean(!is.na(new_dataset$`Economy: Agriculture (% of GVA)`) & new_dataset$Region == "EasternAfrica")
+new_dataset$`Economy: Agriculture (% of GVA)`[is.na(new_dataset$`Economy: Agriculture (% of GVA)`) & new_dataset$Region == "EasternAsia"] <- mean(!is.na(new_dataset$`Economy: Agriculture (% of GVA)`) & new_dataset$Region == "EasternAsia")
+new_dataset$`Economy: Agriculture (% of GVA)`[is.na(new_dataset$`Economy: Agriculture (% of GVA)`) & new_dataset$Region == "WesternAfrica"] <- mean(!is.na(new_dataset$`Economy: Agriculture (% of GVA)`) & new_dataset$Region == "WesternAfrica")
+new_dataset$`Economy: Agriculture (% of GVA)`[is.na(new_dataset$`Economy: Agriculture (% of GVA)`) & new_dataset$Region == "NorthernAfrica"] <- mean(!is.na(new_dataset$`Economy: Agriculture (% of GVA)`) & new_dataset$Region == "NorthernAfrica")
+new_dataset$`Economy: Agriculture (% of GVA)`[is.na(new_dataset$`Economy: Agriculture (% of GVA)`) & new_dataset$Region == "WesternEurope"] <- mean(!is.na(new_dataset$`Economy: Agriculture (% of GVA)`) & new_dataset$Region == "WesternEurope")
+new_dataset$`Economy: Agriculture (% of GVA)`[is.na(new_dataset$`Economy: Agriculture (% of GVA)`) & new_dataset$Region == "South-easternAsia"] <- mean(!is.na(new_dataset$`Economy: Agriculture (% of GVA)`) & new_dataset$Region == "South-easternAsia")
+
+# Comprobamos que no queda ningún valor NA en la columna Economy: Agriculture
+new_dataset$country[is.na(new_dataset$`Economy: Agriculture (% of GVA)`)]
+
+# Transformamos los valores -99 a NA de la columna Economy: Industry
+new_dataset$`Economy: Industry (% of GVA)`[new_dataset$`Economy: Industry (% of GVA)` == -99.000000] <- NA
+
+# Ahora, los reemplazamos por la media de Economy: Industry de su región respectiva:
+new_dataset$`Economy: Industry (% of GVA)`[is.na(new_dataset$`Economy: Industry (% of GVA)`) & new_dataset$Region == "Polynesia"] <- mean(!is.na(new_dataset$`Economy: Industry (% of GVA)`) & new_dataset$Region == "Polynesia")
+new_dataset$`Economy: Industry (% of GVA)`[is.na(new_dataset$`Economy: Industry (% of GVA)`) & new_dataset$Region == "Caribbean"] <- mean(!is.na(new_dataset$`Economy: Industry (% of GVA)`) & new_dataset$Region == "Caribbean")
+new_dataset$`Economy: Industry (% of GVA)`[is.na(new_dataset$`Economy: Industry (% of GVA)`) & new_dataset$Region == "SouthernEurope"] <- mean(!is.na(new_dataset$`Economy: Industry (% of GVA)`) & new_dataset$Region == "SouthernEurope")
+new_dataset$`Economy: Industry (% of GVA)`[is.na(new_dataset$`Economy: Industry (% of GVA)`) & new_dataset$Region == "NorthernEurope"] <- mean(!is.na(new_dataset$`Economy: Industry (% of GVA)`) & new_dataset$Region == "NorthernEurope")
+new_dataset$`Economy: Industry (% of GVA)`[is.na(new_dataset$`Economy: Industry (% of GVA)`) & new_dataset$Region == "SouthAmerica"] <- mean(!is.na(new_dataset$`Economy: Industry (% of GVA)`) & new_dataset$Region == "SouthAmerica")
+new_dataset$`Economy: Industry (% of GVA)`[is.na(new_dataset$`Economy: Industry (% of GVA)`) & new_dataset$Region == "NorthernAmerica"] <- mean(!is.na(new_dataset$`Economy: Industry (% of GVA)`) & new_dataset$Region == "NorthernAmerica")
+new_dataset$`Economy: Industry (% of GVA)`[is.na(new_dataset$`Economy: Industry (% of GVA)`) & new_dataset$Region == "Micronesia"] <- mean(!is.na(new_dataset$`Economy: Industry (% of GVA)`) & new_dataset$Region == "Micronesia")
+new_dataset$`Economy: Industry (% of GVA)`[is.na(new_dataset$`Economy: Industry (% of GVA)`) & new_dataset$Region == "EasternAfrica"] <- mean(!is.na(new_dataset$`Economy: Industry (% of GVA)`) & new_dataset$Region == "EasternAfrica")
+new_dataset$`Economy: Industry (% of GVA)`[is.na(new_dataset$`Economy: Industry (% of GVA)`) & new_dataset$Region == "WesternAfrica"] <- mean(!is.na(new_dataset$`Economy: Industry (% of GVA)`) & new_dataset$Region == "WesternAfrica")
+new_dataset$`Economy: Industry (% of GVA)`[is.na(new_dataset$`Economy: Industry (% of GVA)`) & new_dataset$Region == "NorthernAfrica"] <- mean(!is.na(new_dataset$`Economy: Industry (% of GVA)`) & new_dataset$Region == "NorthernAfrica")
+
+
+
+# Comprobamos que no queda ningún valor NA en la columna Economy: Industry
+new_dataset$country[is.na(new_dataset$`Economy: Industry (% of GVA)`)]
+# A partir de aquí no lo tengas en cuenta han sido pruebas, porque tiene un valor -99 pero lo he intentado mostrar y me indica que es factor, he intentado cambiar a numérico y tampoco puedo, por si se te ocurre algo.
+
+# Transformamos los valores -99 a NA de la columna surface area.
+#new_dataset$`Surface area (km2)`[new_dataset$`Surface area (km2)` == -99.000000] <- NA
+
+#new_dataset$`Surface area (km2)`[is.na(new_dataset$`Surface area (km2)`) & new_dataset$Region == "NorthernAfrica"] <- mean(!is.na(new_dataset$`Surface area (km2)`) & new_dataset$Region == "NorthernAfrica")
 ```
