@@ -10,4 +10,4 @@
 
 Limpieza de datos en un dataset elegido "country_profile_data.csv" que nos muestra datos macroeconómicos tanto por país como por región con algunos indicadores destacados (GDP, GDP per cápita, agriculture, industry, services, employment, import, export, balance...)
 
-Análisis de los datos del dataset con métodos de análisis estadísticos inferenciales como el estudio de la homocedasticidad o el coeficiente de correlación entre varios indicadores. Además, se analiza la regresión lineal de varios indicadores sobre el GDP para un país en concreto.
+Análisis de los datos del dataset con métodos de análisis estadísticos inferenciales como el estudio de la homocedasticidad o el coeficiente de correlación entre varios indicadores. Además, se analiza la regresión lineal de varios indicadores sobre el GDP para un país en concreto. MAQUETA, AÚN NO SABEMOS QUÉ 3 ANÁLISIS ACABAREMOS HACIENDO
