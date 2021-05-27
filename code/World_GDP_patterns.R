@@ -47,6 +47,7 @@ sort(boxplot.stats(new_dataset$`Population in thousands (2017)`)$out)
 paste("Valores extremos de densidad de población en km2:")  
 sort(boxplot.stats(new_dataset$`Population density (per km2, 2017)`)$out)
 
+# Ninguno de los outliers de estas dos primeras columnas, debería considerarse un valor extremo a suprimir.
 paste("Valores extremos de GDP:")  
 sort(boxplot.stats(new_dataset$`GDP: Gross domestic product (million current US$)`)$out)
 
