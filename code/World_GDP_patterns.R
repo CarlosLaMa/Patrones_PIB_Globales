@@ -121,7 +121,7 @@ boxplot.stats(new_dataset$`GDP per capita (current US$)`)$out
 # Por otro lado, la columna dispone de campos -99 (valores perdidos). 
 # Procedemos a comprobar de qué regiones se trata, y modificar los campos.
 new_dataset$country[new_dataset$`GDP per capita (current US$)` == -99]
-new_dataset$Region[new_dataset$gd == -99]
+new_dataset$Region[new_dataset$`GDP per capita (current US$)` == -99]
 new_dataset$`GDP per capita (current US$)`[new_dataset$`GDP per capita (current US$)` == -99] <- NA
 
 # Ahora, los reemplazamos por la media de GDP per capita de su región respectiva:
@@ -264,7 +264,7 @@ new_dataset$country[new_dataset$`Employment: Industry (% of employed)` == -99.00
 new_dataset$Region[new_dataset$`Employment: Industry (% of employed)` == -99.000000]
 new_dataset$`Employment: Industry (% of employed)`[new_dataset$`Employment: Industry (% of employed)` == -99.000000] <- NA
 
-# Ahora, los reemplazamos por la media de Employed in industria de su región respectiva:
+# Ahora, los reemplazamos por la media de Employed in Industry de su región respectiva:
 new_dataset$`Employment: Industry (% of employed)`[is.na(new_dataset$`Employment: Industry (% of employed)`) & new_dataset$Region == "Polynesia"] <- mean(!is.na(new_dataset$`Employment: Industry (% of employed)`) & new_dataset$Region == "Polynesia")
 new_dataset$`Employment: Industry (% of employed)`[is.na(new_dataset$`Employment: Industry (% of employed)`) & new_dataset$Region == "Caribbean"] <- mean(!is.na(new_dataset$`Employment: Industry (% of employed)`) & new_dataset$Region == "Caribbean")
 new_dataset$`Employment: Industry (% of employed)`[is.na(new_dataset$`Employment: Industry (% of employed)`) & new_dataset$Region == "SouthernEurope"] <- mean(!is.na(new_dataset$`Employment: Industry (% of employed)`) & new_dataset$Region == "SouthernEurope")
@@ -307,5 +307,67 @@ new_dataset$`Employment: Services (% of employed)`[is.na(new_dataset$`Employment
 # Comprobamos que no queda ningún valor NA en la columna Employment: Services (% of employed)
 new_dataset$country[is.na(new_dataset$`Employment: Services (% of employed)`)]
 
-# PUEDE QUE QUEDEN POR VER LOS OUTLIERS DE ALGUNA COLUMNA QUE NO TENÍA -99. REVISAR AL FINAL DE  LA LIMPIEZA
+paste("Valores extremos de crecimiento de población:")
+
+# En esta columna, no observamos valores extremos. Además, media y mediana son similares.
+# Sin embargo, sí que disponemos de 7 observaciones NA.
+# Procedemos a asignar la media de la región para estas observaciones.
+new_dataset$country[is.na(new_dataset$`Population growth rate (average annual %)`)]
+new_dataset$Region[is.na(new_dataset$`Population growth rate (average annual %)`)]
+
+new_dataset$`Population growth rate (average annual %)`[is.na(new_dataset$`Population growth rate (average annual %)`) & new_dataset$Region == "Polynesia"] <- mean(!is.na(new_dataset$`Population growth rate (average annual %)`) & new_dataset$Region == "Polynesia")
+new_dataset$`Population growth rate (average annual %)`[is.na(new_dataset$`Population growth rate (average annual %)`) & new_dataset$Region == "Caribbean"] <- mean(!is.na(new_dataset$`Population growth rate (average annual %)`) & new_dataset$Region == "Caribbean")
+new_dataset$`Population growth rate (average annual %)`[is.na(new_dataset$`Population growth rate (average annual %)`) & new_dataset$Region == "SouthernEurope"] <- mean(!is.na(new_dataset$`Population growth rate (average annual %)`) & new_dataset$Region == "SouthernEurope")
+new_dataset$`Population growth rate (average annual %)`[is.na(new_dataset$`Population growth rate (average annual %)`) & new_dataset$Region == "EasternEurope"] <- mean(!is.na(new_dataset$`Population growth rate (average annual %)`) & new_dataset$Region == "EasternEurope")
+new_dataset$`Population growth rate (average annual %)`[is.na(new_dataset$`Population growth rate (average annual %)`) & new_dataset$Region == "NorthernAmerica"] <- mean(!is.na(new_dataset$`Population growth rate (average annual %)`) & new_dataset$Region == "NorthernAmerica")
+
+# Comprobamos que no queda ningún valor NA en la columna de Population Growth Rate
+new_dataset$country[is.na(new_dataset$`Population growth rate (average annual %)`)]
+
+paste("Valores extremos de porcentaje de población urbana:")
+
+# En la columna de Urban Population (%), no hay una diferencia significativa entre media y mediana.
+# Además, no se encuentran valores NA.
+# Sin embargo, el mínimo (0%) y el máximo (100%) parecen muy extremos. Comprobemos los países.
+# Empezamos por aquellos con una proporción de población urbana del 0%:
+new_dataset$country[new_dataset$`Urban population (% of total population)` == 0]
+# Tras una comprobación manual, estos dos países se han introducido en el dataset correctamente.
+# Pasemos ahora a los territorios con una población urbana del 100%:
+new_dataset$country[new_dataset$`Urban population (% of total population)` == 100]
+# De nuevo, los datos parecen estar en línea con los que se pueden estudiar en el data.worldbank.org.
+# Por tanto, se concluye que esta columna no presenta outliers.
+
+paste("Valores extremos de gasto en educación sobre GDP:")
+
+# Comprobemos primero los outliers de esta columna
+boxplot.stats(new_dataset$`Education: Government expenditure (% of GDP)`)$out
+
+# Todos los outliers son valores perdidos (-99).
+# Procedemos a comprobar de qué regiones se trata, y modificar los campos.
+new_dataset$country[new_dataset$`Education: Government expenditure (% of GDP)` == -99]
+# NOTA: Vuelve a haber valores NA extraños, comprobar para la entrega final.
+new_dataset$Region[new_dataset$`Education: Government expenditure (% of GDP)` == -99]
+new_dataset$`Education: Government expenditure (% of GDP)`[new_dataset$`Education: Government expenditure (% of GDP)` == -99] <- NA
+
+new_dataset$`Education: Government expenditure (% of GDP)`[is.na(new_dataset$`Education: Government expenditure (% of GDP)`) & new_dataset$Region == "Polynesia"] <- mean(!is.na(new_dataset$`Education: Government expenditure (% of GDP)`) & new_dataset$Region == "Polynesia")
+new_dataset$`Education: Government expenditure (% of GDP)`[is.na(new_dataset$`Education: Government expenditure (% of GDP)`) & new_dataset$Region == "Caribbean"] <- mean(!is.na(new_dataset$`Education: Government expenditure (% of GDP)`) & new_dataset$Region == "Caribbean")
+new_dataset$`Education: Government expenditure (% of GDP)`[is.na(new_dataset$`Education: Government expenditure (% of GDP)`) & new_dataset$Region == "SouthernEurope"] <- mean(!is.na(new_dataset$`Education: Government expenditure (% of GDP)`) & new_dataset$Region == "SouthernEurope")
+new_dataset$`Education: Government expenditure (% of GDP)`[is.na(new_dataset$`Education: Government expenditure (% of GDP)`) & new_dataset$Region == "NorthernEurope"] <- mean(!is.na(new_dataset$`Education: Government expenditure (% of GDP)`) & new_dataset$Region == "NorthernEurope")
+new_dataset$`Education: Government expenditure (% of GDP)`[is.na(new_dataset$`Education: Government expenditure (% of GDP)`) & new_dataset$Region == "SouthAmerica"] <- mean(!is.na(new_dataset$`Education: Government expenditure (% of GDP)`) & new_dataset$Region == "SouthAmerica")
+new_dataset$`Education: Government expenditure (% of GDP)`[is.na(new_dataset$`Education: Government expenditure (% of GDP)`) & new_dataset$Region == "NorthernAmerica"] <- mean(!is.na(new_dataset$`Education: Government expenditure (% of GDP)`) & new_dataset$Region == "NorthernAmerica")
+new_dataset$`Education: Government expenditure (% of GDP)`[is.na(new_dataset$`Education: Government expenditure (% of GDP)`) & new_dataset$Region == "CentralAmerica"] <- mean(!is.na(new_dataset$`Education: Government expenditure (% of GDP)`) & new_dataset$Region == "CentralAmerica")
+new_dataset$`Education: Government expenditure (% of GDP)`[is.na(new_dataset$`Education: Government expenditure (% of GDP)`) & new_dataset$Region == "Micronesia"] <- mean(!is.na(new_dataset$`Education: Government expenditure (% of GDP)`) & new_dataset$Region == "Micronesia")
+new_dataset$`Education: Government expenditure (% of GDP)`[is.na(new_dataset$`Education: Government expenditure (% of GDP)`) & new_dataset$Region == "Melanesia"] <- mean(!is.na(new_dataset$`Education: Government expenditure (% of GDP)`) & new_dataset$Region == "Melanesia")
+new_dataset$`Education: Government expenditure (% of GDP)`[is.na(new_dataset$`Education: Government expenditure (% of GDP)`) & new_dataset$Region == "EasternAfrica"] <- mean(!is.na(new_dataset$`Education: Government expenditure (% of GDP)`) & new_dataset$Region == "EasternAfrica")
+new_dataset$`Education: Government expenditure (% of GDP)`[is.na(new_dataset$`Education: Government expenditure (% of GDP)`) & new_dataset$Region == "WesternAfrica"] <- mean(!is.na(new_dataset$`Education: Government expenditure (% of GDP)`) & new_dataset$Region == "WesternAfrica")
+new_dataset$`Education: Government expenditure (% of GDP)`[is.na(new_dataset$`Education: Government expenditure (% of GDP)`) & new_dataset$Region == "NorthernAfrica"] <- mean(!is.na(new_dataset$`Education: Government expenditure (% of GDP)`) & new_dataset$Region == "NorthernAfrica")
+new_dataset$`Education: Government expenditure (% of GDP)`[is.na(new_dataset$`Education: Government expenditure (% of GDP)`) & new_dataset$Region == "SouthernAfrica"] <- mean(!is.na(new_dataset$`Education: Government expenditure (% of GDP)`) & new_dataset$Region == "SouthernAfrica")
+new_dataset$`Education: Government expenditure (% of GDP)`[is.na(new_dataset$`Education: Government expenditure (% of GDP)`) & new_dataset$Region == "MiddleAfrica"] <- mean(!is.na(new_dataset$`Education: Government expenditure (% of GDP)`) & new_dataset$Region == "MiddleAfrica")
+new_dataset$`Education: Government expenditure (% of GDP)`[is.na(new_dataset$`Education: Government expenditure (% of GDP)`) & new_dataset$Region == "South-easternAsia"] <- mean(!is.na(new_dataset$`Education: Government expenditure (% of GDP)`) & new_dataset$Region == "South-easternAsia")
+new_dataset$`Education: Government expenditure (% of GDP)`[is.na(new_dataset$`Education: Government expenditure (% of GDP)`) & new_dataset$Region == "CentralAsia"] <- mean(!is.na(new_dataset$`Education: Government expenditure (% of GDP)`) & new_dataset$Region == "CentralAsia")
+new_dataset$`Education: Government expenditure (% of GDP)`[is.na(new_dataset$`Education: Government expenditure (% of GDP)`) & new_dataset$Region == "WesternAsia"] <- mean(!is.na(new_dataset$`Education: Government expenditure (% of GDP)`) & new_dataset$Region == "WesternAsia")
+new_dataset$`Education: Government expenditure (% of GDP)`[is.na(new_dataset$`Education: Government expenditure (% of GDP)`) & new_dataset$Region == "EasternAsia"] <- mean(!is.na(new_dataset$`Education: Government expenditure (% of GDP)`) & new_dataset$Region == "EasternAsia")
+
+# Comprobamos que no queda ningún valor NA en la columna de gasto en educación.
+new_dataset$country[is.na(new_dataset$`Education: Government expenditure (% of GDP)`)]
 ```
