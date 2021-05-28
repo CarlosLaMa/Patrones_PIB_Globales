@@ -8,6 +8,11 @@
 
 **Descripción general:**
 
-Limpieza de datos en un dataset elegido "country_profile_data.csv" que nos muestra datos macroeconómicos tanto por país como por región con algunos indicadores destacados (GDP, GDP per cápita, agriculture, industry, services, employment, import, export, balance...)
+Proyecto realizado para la Práctica 2 de la asignatura de Tipología y Ciclo de Vida de los Datos, de la Universitat Oberta de Catalunya.
 
-Análisis de los datos del dataset con métodos de análisis estadísticos inferenciales como el estudio de la homocedasticidad o el coeficiente de correlación entre varios indicadores. Además, se analiza la regresión lineal de varios indicadores sobre el GDP para un país en concreto. MAQUETA, AÚN NO SABEMOS QUÉ 3 ANÁLISIS ACABAREMOS HACIENDO
+Incluye la extracción de un CSV de Kaggle (créditos a la usuaria que lo colgó: Anuradha Satyanarayana), así como la limpieza de los datos.
+
+Por último, se incluyen tres análisis estadísticos para comprobar comportamientos económicos y demográficos, principalmente a través del
+PIB de varios países a nivel mundial.
+
+
