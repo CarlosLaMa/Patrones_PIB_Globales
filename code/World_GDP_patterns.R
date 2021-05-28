@@ -456,8 +456,6 @@ qqline(new_dataset$empl_services, col = "red")
 # Preguntar a Oswaldo si consideraría que, por ejemplo, GDP x cap no sigue
 # dist normal. Bajo nuestra perspectiva, solo por el simple TCL ya debería.
 
-
-
 paste("Regression model to explain GDP per capita:")
 
 # Suavicemos primero la skewness de la variable dependiente.
@@ -465,6 +463,10 @@ new_dataset$gdp_xcap <- sqrt(new_dataset$gdp_xcap)
 
 lm_gdp_xcap <- lm(gdp_xcap ~ eco_agri + eco_industry + eco_services + empl_agri + empl_industry + empl_services, data = new_dataset)
 summary(lm_gdp_xcap)
+
+# Excepto por el peso de la agricultura en la economía,
+# el resto de variables contribuyen a explicar GDP_xcap.
+# Además, el modelo explica el 60% de variabilidad de la variable GDP x cap.
 
 # Comprobación de homocedasticidad:
 plot(lm_gdp_xcap)
