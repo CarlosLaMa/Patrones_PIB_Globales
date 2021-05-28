@@ -453,7 +453,7 @@ qqline(new_dataset$empl_services, col = "red")
 
 # Más o menos, los puntos de todas las columnas siguen la distribución
 # marcada por la QQline.
-# Preguntar a Oswaldo si consideraría que, por ejemplo, GDP x cap no sigue
+# Preguntar a Diego si consideraría que, por ejemplo, GDP x cap no sigue
 # dist normal. Bajo nuestra perspectiva, solo por el simple TCL ya debería.
 
 paste("Regression model to explain GDP per capita:")
