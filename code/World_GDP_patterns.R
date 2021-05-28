@@ -461,6 +461,7 @@ paste("Regression model to explain GDP per capita:")
 # Suavicemos primero la skewness de la variable dependiente.
 new_dataset$gdp_xcap <- sqrt(new_dataset$gdp_xcap)
 
+# Ahora, creamos el modelo de regresión.
 lm_gdp_xcap <- lm(gdp_xcap ~ eco_agri + eco_industry + eco_services + empl_agri + empl_industry + empl_services, data = new_dataset)
 summary(lm_gdp_xcap)
 
