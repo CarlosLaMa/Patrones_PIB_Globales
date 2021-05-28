@@ -372,3 +372,97 @@ new_dataset$`Education: Government expenditure (% of GDP)`[is.na(new_dataset$`Ed
 # Comprobamos que no queda ningún valor NA en la columna de gasto en educación.
 new_dataset$country[is.na(new_dataset$`Education: Government expenditure (% of GDP)`)]
 ```
+
+```{r analysis}
+
+# TRAER HACIA ATRÁS PARA HACER EL CÓDIGO ANTERIOR MÁS LEGIBLE
+new_dataset$population <- new_dataset$`Population in thousands (2017)`
+new_dataset$pop_dens <- new_dataset$`Population density (per km2, 2017)`
+new_dataset$pop_growth <- new_dataset$`Population growth rate (average annual %)`
+new_dataset$urban_pop <- new_dataset$`Urban population (% of total population)`
+new_dataset$gdp <- new_dataset$`GDP: Gross domestic product (million current US$)`
+new_dataset$gdp_growth <- new_dataset$`GDP growth rate (annual %, const. 2005 prices)`
+new_dataset$gdp_xcap <- new_dataset$`GDP per capita (current US$)`
+new_dataset$eco_agri <- new_dataset$`Economy: Agriculture (% of GVA)`
+new_dataset$eco_industry <- new_dataset$`Economy: Industry (% of GVA)`
+new_dataset$eco_services <- new_dataset$`Economy: Services and other activity (% of GVA)`
+new_dataset$empl_agri <- new_dataset$`Employment: Agriculture (% of employed)`
+new_dataset$empl_industry <- new_dataset$`Employment: Industry (% of employed)`
+new_dataset$empl_services <- new_dataset$`Employment: Services (% of employed)`
+new_dataset$educ_exp <- new_dataset$`Education: Government expenditure (% of GDP)`
+
+paste("Comprobación de normalidad:")
+
+# Todas las columnas tienen más de 30 observaciones. Por tanto, según el TCL,
+# estas deberían poder aproximarse a la distribución normal.
+# Comprobemos los gráficos de la distribución de las columnas numéricas:
+layout(matrix(c(1,2,3,4,5,
+                6,7,8,9,10,
+                11,12,13,14,14), nrow = 3, ncol = 5, byrow = TRUE))
+plot(density(new_dataset$population), main = "Population")
+plot(density(new_dataset$pop_dens), main = "Pop_Density")
+plot(density(new_dataset$pop_growth), main = "Pop_Growth")
+plot(density(new_dataset$urban_pop), main = "Urban_Pop")
+plot(density(new_dataset$gdp), main = "GDP")
+plot(density(new_dataset$gdp_growth), main = "GDP_Growth")
+plot(density(new_dataset$gdp_xcap), main = "GDP x cap")
+plot(density(new_dataset$eco_agri), main = "Eco_Agri")
+plot(density(new_dataset$eco_industry), main = "Eco_Industry")
+plot(density(new_dataset$eco_services), main = "Eco_Services")
+plot(density(new_dataset$empl_agri), main = "Empl_Agri")
+plot(density(new_dataset$empl_industry), main = "Empl_Industry")
+plot(density(new_dataset$empl_services), main = "Empl_Services")
+plot(density(new_dataset$educ_exp), main = "Educ_Exp")
+
+# Algunas columnas son representadas con cierta asimetría,
+# aunque esto parece consecuencia de los outliers que hemos dejado.
+
+# Comprobemos el gráfico Q-Q de cada variable.
+# Con estos, podremos observar si tan solo los outliers se salen de los patrones.
+layout(matrix(c(1,2,3,4,5,
+                6,7,8,9,10,
+                11,12,13,14,14), nrow = 3, ncol = 5, byrow = TRUE))
+qqnorm(new_dataset$population, main = "Population")
+qqline(new_dataset$population, col = "red")
+qqnorm(new_dataset$pop_dens, main = "Pop_Density")
+qqline(new_dataset$pop_dens, col = "red")
+qqnorm(new_dataset$pop_growth, main = "Pop_Growth")
+qqline(new_dataset$pop_growth, col = "red")
+qqnorm(new_dataset$urban_pop, main = "Urban_Pop")
+qqline(new_dataset$urban_pop, col = "red")
+qqnorm(new_dataset$gdp, main = "GDP")
+qqline(new_dataset$gdp, col = "red")
+qqnorm(new_dataset$gdp_growth, main = "GDP_Growth")
+qqline(new_dataset$gdp_growth, col = "red")
+qqnorm(new_dataset$gdp_xcap, main = "GDP x cap")
+qqline(new_dataset$gdp_xcap, col = "red")
+qqnorm(new_dataset$eco_agri, main = "Eco_Agri")
+qqline(new_dataset$eco_agri, col = "red")
+qqnorm(new_dataset$eco_industry, main = "Eco_Industry")
+qqline(new_dataset$eco_industry, col = "red")
+qqnorm(new_dataset$eco_services, main = "Eco_Services")
+qqline(new_dataset$eco_services, col = "red")
+qqnorm(new_dataset$empl_agri, main = "Empl_Agri")
+qqline(new_dataset$empl_agri, col = "red")
+qqnorm(new_dataset$empl_industry, main = "Empl_Industry")
+qqline(new_dataset$empl_industry, col = "red")
+qqnorm(new_dataset$empl_services, main = "Empl_Services")
+qqline(new_dataset$empl_services, col = "red")
+qqnorm(new_dataset$empl_services, main = "Educ_Exp")
+qqline(new_dataset$empl_services, col = "red")
+
+# Más o menos, los puntos de todas las columnas siguen la distribución
+# marcada por la QQline.
+# Preguntar a Oswaldo si consideraría que, por ejemplo, GDP x cap no sigue
+# dist normal. Bajo nuestra perspectiva, solo por el simple TCL ya debería.
+
+new_dataset$gdp_xcap <- sqrt(new_dataset$gdp_xcap)
+
+paste("Regression model to explain GDP per capita:")
+
+lm_gdp_xcap <- lm(gdp_xcap ~ eco_agri + eco_industry + eco_services + empl_agri + empl_industry + empl_services, data = new_dataset)
+summary(lm_gdp_xcap)
+
+# Comprobación de homocedasticidad:
+plot(lm_gdp_xcap)
+```
