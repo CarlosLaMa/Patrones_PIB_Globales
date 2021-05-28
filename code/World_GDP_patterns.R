@@ -3,7 +3,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r import}
-dataset<-read.csv("C:/Users/carlo/OneDrive/Escritorio/country_profile_variables.csv", sep=",", check.names=FALSE)
+dataset<-read.csv("country_profile_variables.csv", sep=",", check.names=FALSE)
 colnames(dataset)
 ```
 
