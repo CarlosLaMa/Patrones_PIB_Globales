@@ -78,7 +78,7 @@ summary(country_profiles)
 ```
 A continuación, estudiaremos la normalidad de los datos:
 
-```{r cars4}
+```{r normalidad}
 # Computamos el test de Shapiro-Wilk para estudiar la normalidad.
 shapiro.test(country_profiles$population)
 shapiro.test(country_profiles$pop_dens)
