@@ -125,14 +125,16 @@ country_profiles <- subset(country_profiles, select = -c(country))
 Ahora, procedamos a aplicar un algoritmo de imputación para los valores faltantes:
 
 ```{r missForest}
+# Cargamos librería.
 library(missForest)
 
+# Aplicamos algoritmo a los datos para limpiarlos.
 country_profiles_clean <- missForest(country_profiles)
-
 country_profiles <- country_profiles_clean$ximp
-
+# Añadimos de nuevo la columna country.
 country_profiles <- data.frame(country_profiles_og$country, country_profiles)
 
+# Imprimimos resumen
 summary(country_profiles)
 ```
 A continuación, estudiaremos la normalidad de los datos:
