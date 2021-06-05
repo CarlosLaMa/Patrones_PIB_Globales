@@ -52,6 +52,34 @@ country_profiles$educ_exp<-as.numeric(country_profiles$educ_exp)
 # Imprimimos de nuevo un resumen.
 summary(country_profiles)
 
+```{r valores vacios}
+# FALTA CAMBIAR LOS VALORES VACIOS DE LAS 3 DE EMPLEO Y EDUCACION A NA.
+paste("Valores vacios en población:", which(is.na(country_profiles$population)))
+paste("Valores vacios en densidad población:", which(is.na(country_profiles$pop_dens)))
+paste("Valores vacios en crecimiento de población:", which(is.na(country_profiles$pop_growth)))
+paste("Valores vacios en población urbana:", which(is.na(country_profiles$urban_pop)))
+paste("Valores vacios en PIB", which(is.na(country_profiles$gdp)))
+paste("Valores vacios en crecimiento del PIB:", which(is.na(country_profiles$gdp_growth)))
+paste("Valores vacios en PIB per capita:", which(is.na(country_profiles$gdp_xcap)))
+paste("Valores vacios en sector agricultura:", which(is.na(country_profiles$eco_agri)))
+paste("Valores vacios en sector industria:", which(is.na(country_profiles$eco_industry)))
+paste("Valores vacios en sector servicios:", which(is.na(country_profiles$eco_services)))
+
+paste("Valores vacios en empleo agricultura:")
+valores1<-which(is.na(country_profiles$empl_agri))
+valores1
+paste("Valores vacios en empleo industria:")
+valores2<-which(is.na(country_profiles$empl_industry))
+valores2
+paste("Valores vacios en empleo servicios:")
+valores3<-which(is.na(country_profiles$empl_services))
+valores3
+paste("Valores vacios en educación:")
+valores4<-which(is.na(country_profiles$educ_exp))
+valores4
+
+# Sustituimos los valores vacíos por NA.
+
 # Tras una inspección visual, los valores faltantes parecen haberse marcado con -99.
 # Procedemos a sustituirlos por NA.
 country_profiles[country_profiles == -99.0] <- NA
