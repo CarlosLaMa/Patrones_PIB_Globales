@@ -52,35 +52,40 @@ country_profiles$educ_exp<-as.numeric(country_profiles$educ_exp)
 # Imprimimos de nuevo un resumen.
 summary(country_profiles)
 
-```{r valores vacios}
-# FALTA CAMBIAR LOS VALORES VACIOS DE LAS 3 DE EMPLEO Y EDUCACION A NA.
-paste("Valores vacios en población:", which(is.na(country_profiles$population)))
-paste("Valores vacios en densidad población:", which(is.na(country_profiles$pop_dens)))
-paste("Valores vacios en crecimiento de población:", which(is.na(country_profiles$pop_growth)))
-paste("Valores vacios en población urbana:", which(is.na(country_profiles$urban_pop)))
-paste("Valores vacios en PIB", which(is.na(country_profiles$gdp)))
-paste("Valores vacios en crecimiento del PIB:", which(is.na(country_profiles$gdp_growth)))
-paste("Valores vacios en PIB per capita:", which(is.na(country_profiles$gdp_xcap)))
-paste("Valores vacios en sector agricultura:", which(is.na(country_profiles$eco_agri)))
-paste("Valores vacios en sector industria:", which(is.na(country_profiles$eco_industry)))
-paste("Valores vacios en sector servicios:", which(is.na(country_profiles$eco_services)))
-
+# Detectamos valores vacíos con is.na().
+paste("Valores vacios en población:")
+which(is.na(country_profiles$population))
+paste("Valores vacios en densidad población:")
+which(is.na(country_profiles$pop_dens))
+paste("Valores vacios en crecimiento de población:")
+which(is.na(country_profiles$pop_growth))
+paste("Valores vacios en población urbana:")
+which(is.na(country_profiles$urban_pop))
+paste("Valores vacios en PIB:")
+which(is.na(country_profiles$gdp))
+paste("Valores vacios en crecimiento del PIB:")
+which(is.na(country_profiles$gdp_growth))
+paste("Valores vacios en PIB per capita:")
+which(is.na(country_profiles$gdp_xcap))
+paste("Valores vacios en sector agricultura:")
+which(is.na(country_profiles$eco_agri))
+paste("Valores vacios en sector industria:")
+which(is.na(country_profiles$eco_industry))
+paste("Valores vacios en sector servicios:")
+which(is.na(country_profiles$eco_services))
 paste("Valores vacios en empleo agricultura:")
-valores1<-which(is.na(country_profiles$empl_agri))
-valores1
+which(is.na(country_profiles$empl_agri))
 paste("Valores vacios en empleo industria:")
-valores2<-which(is.na(country_profiles$empl_industry))
-valores2
+which(is.na(country_profiles$empl_industry))
 paste("Valores vacios en empleo servicios:")
-valores3<-which(is.na(country_profiles$empl_services))
-valores3
+which(is.na(country_profiles$empl_services))
 paste("Valores vacios en educación:")
-valores4<-which(is.na(country_profiles$educ_exp))
-valores4
+which(is.na(country_profiles$educ_exp))
 
 # Sustituimos los valores vacíos por NA.
 
-# Comprobamos los valores extremos con boxplots:
+# Comprobamos los valores extremos con boxplot_stats$out.
+# Esta función devuelve los valores que están a más de 1.5 de distancia del IQR.
 paste("Valores extremos de la población:")
 boxplot.stats(country_profiles$population)$out
 paste("Valores extremos de la densidad población:")
@@ -105,14 +110,12 @@ paste("Valores extremos de empleabilidad en industria:")
 boxplot.stats(country_profiles$empl_industry)$out
 paste("Valores extremos de empleabilidad en servicios:")
 boxplot.stats(country_profiles$empl_services)$out
-paste("Valores extremos de educacion:")
+paste("Valores extremos de gasto en educacion:")
 boxplot.stats(country_profiles$educ_exp)$out
 
 # Tras una inspección visual, los valores faltantes parecen haberse marcado con -99.
 # Procedemos a sustituirlos por NA.
 country_profiles[country_profiles == -99.0] <- NA
-
-# PENDIENTE: PASAR PARTES DE BOX-PLOT$OUT Y COMENTARIOS
 
 # Para acabar de preparar el dataset antes de aplicar el algoritmo de imputación de NAs,
 # extraemos temporalmente la columna country (más de 53 categorías).
@@ -202,12 +205,35 @@ qqnorm(country_profiles$educ_exp, main = "Educ_Exp")
 qqline(country_profiles$educ_exp, col = "red")
 ```
 
-Para comprobar la igualdad de varianzas utilizamos el test fligner-killen
-```{r test fligner-killen}
-# Se comprueba la homogeneidad de las varianzas entre las variables PIB per cápita y sector agricultura
-fligner.test(gdp_xcap~eco_agri, data=country_profiles)
-# Aceptamos la hipótesis nula y confirmamos la igualdad de las varianzas entre las variables.
+Realizamos el primer análisis, una regresión lineal múltiple en la cual intentaremos predecir PIB por cápita a través de las
+métricas relacionadas con los tres sectores económicos principales de un país (agricultura, industria, servicios).
 
-# Se comprueba la homogeneidad de las varianzas entre las variables PIB per cápita y sector industria
+```{r lm test}
+# Cargamos librerías necesarias
+library(rminer)
 
+# Dividimos datos en entrenamiento y validación, con un ratio de 2/3 vs 1/3.
+# Lo hacemos a través de gdp_xcap (variable dependiente)
+h<-holdout(country_profiles$gdp_xcap, ratio = 2/3, mode="stratified")
+data_train<-country_profiles[h$tr,]
+data_test<-country_profiles[h$ts,]
+
+# Creamos el modelo, y realizamos un resumen del mismo.
+regressor <- lm(gdp_xcap ~ eco_agri + eco_industry + eco_services + empl_agri + empl_industry + empl_services, data = data_train)
+summary(regressor)
+
+# Aplicamos el modelo sobre los datos de entrenamiento, y estudiamos correlación entre datos reales y predichos.
+train_predict<-predict(regressor, data=data_train)
+cor(train_predict, data_train$gdp_xcap)
+
+# Aplicamos el modelo sobre los datos de test, y estudiamos correlación entre datos reales y predichos.
+test_predict<-predict(regressor, newdata=data_test)
+cor(test_predict, data_test$gdp_xcap)
+
+# Comprobamos normalidad a través del gráfico de residuos.
+plot(regressor, which=2)
+
+# Comprobamos homocedasticidad de los residuos.
+plot(regressor, which=3)
 ```
+
