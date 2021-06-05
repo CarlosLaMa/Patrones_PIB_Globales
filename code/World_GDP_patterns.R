@@ -201,3 +201,13 @@ qqline(country_profiles$empl_services, col = "red")
 qqnorm(country_profiles$educ_exp, main = "Educ_Exp")
 qqline(country_profiles$educ_exp, col = "red")
 ```
+
+Para comprobar la igualdad de varianzas utilizamos el test fligner-killen
+```{r test fligner-killen}
+# Se comprueba la homogeneidad de las varianzas entre las variables PIB per cápita y sector agricultura
+fligner.test(gdp_xcap~eco_agri, data=country_profiles)
+# Aceptamos la hipótesis nula y confirmamos la igualdad de las varianzas entre las variables.
+
+# Se comprueba la homogeneidad de las varianzas entre las variables PIB per cápita y sectro industria
+
+```
