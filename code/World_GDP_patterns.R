@@ -80,6 +80,34 @@ valores4
 
 # Sustituimos los valores vacíos por NA.
 
+# Comprobamos los valores extremos con boxplots:
+paste("Valores extremos de la población:")
+boxplot.stats(country_profiles$population)$out
+paste("Valores extremos de la densidad población:")
+boxplot.stats(country_profiles$pop_dens)$out
+paste("Valores extremos del crecimiento población:")
+boxplot.stats(country_profiles$pop_growth)$out
+paste("Valores extremos de la población urbana:")
+boxplot.stats(country_profiles$urban_pop)$out
+paste("Valores extremos del PIB:")
+boxplot.stats(country_profiles$gdp)$out
+paste("Valores extremos del crecimiento del PIB:")
+boxplot.stats(country_profiles$gdp_growth)$out
+paste("Valores extremos del sector agricultura:")
+boxplot.stats(country_profiles$eco_agri)$out
+paste("Valores extremos del sector industria::")
+boxplot.stats(country_profiles$eco_industry)$out
+paste("Valores extremos del sector servicios:")
+boxplot.stats(country_profiles$eco_services)$out
+paste("Valores extremos de empleabilidad en agricultura:")
+boxplot.stats(country_profiles$empl_agri)$out
+paste("Valores extremos de empleabilidad en industria:")
+boxplot.stats(country_profiles$empl_industry)$out
+paste("Valores extremos de empleabilidad en servicios:")
+boxplot.stats(country_profiles$empl_services)$out
+paste("Valores extremos de educacion:")
+boxplot.stats(country_profiles$educ_exp)$out
+
 # Tras una inspección visual, los valores faltantes parecen haberse marcado con -99.
 # Procedemos a sustituirlos por NA.
 country_profiles[country_profiles == -99.0] <- NA
