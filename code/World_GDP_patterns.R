@@ -208,6 +208,6 @@ Para comprobar la igualdad de varianzas utilizamos el test fligner-killen
 fligner.test(gdp_xcap~eco_agri, data=country_profiles)
 # Aceptamos la hipótesis nula y confirmamos la igualdad de las varianzas entre las variables.
 
-# Se comprueba la homogeneidad de las varianzas entre las variables PIB per cápita y sectro industria
+# Se comprueba la homogeneidad de las varianzas entre las variables PIB per cápita y sector industria
 
 ```
