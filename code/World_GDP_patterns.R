@@ -96,6 +96,8 @@ paste("Valores extremos de la población urbana:")
 boxplot.stats(country_profiles$urban_pop)$out
 paste("Valores extremos del PIB:")
 boxplot.stats(country_profiles$gdp)$out
+paste("Valores extremos del PIB per capita:")
+boxplot.stats(country_profiles$gdp_xcap)$out
 paste("Valores extremos del crecimiento del PIB:")
 boxplot.stats(country_profiles$gdp_growth)$out
 paste("Valores extremos del sector agricultura:")
