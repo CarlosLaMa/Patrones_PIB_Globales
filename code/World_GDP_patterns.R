@@ -1,4 +1,4 @@
-# CÓDIGO TRAS FEEDBACK DE DIEGO
+# CÓDIGO 
 
 ---
 title: "Práctica2 TyCdV de los Datos"
@@ -51,6 +51,43 @@ country_profiles$educ_exp<-as.numeric(country_profiles$educ_exp)
 
 # Imprimimos de nuevo un resumen.
 summary(country_profiles)
+
+```
+Realizamos un análisis para ver si tenemos valores iguales a 0
+```{r valores iguales a 0}
+
+# Analizamos si tenemos valores cero en población
+which(country_profiles$population == 0.0)
+# Analizamos si tenemos valores cero en densidad de población
+which(country_profiles$pop_dens == 0.0)
+# Analizamos si tenemos valores cero en crecimiento de población
+which(country_profiles$pop_growth == 0.0)
+# Analizamos si tenemos valores cero en población urbana
+which(country_profiles$urban_pop == 0.0)
+# Analizamos si tenemos valores cero en el PIB
+which(country_profiles$gdp == 0.0)
+# Analizamos si tenemos valores cero en el crecimiento del PIB
+which(country_profiles$gdp_growth == 0.0)
+# Analizamos si tenemos valores cero en el PIB per cápita
+which(country_profiles$gdp_xcap == 0.0)
+# Analizamos si tenemos valores cero en el sector agricultura
+which(country_profiles$eco_agri == 0.0)
+# Analizamos si tenemos valores cero en el sector industria
+which(country_profiles$eco_industry == 0.0)
+# Analizamos si tenemos valores cero en el sector servicios
+which(country_profiles$eco_services == 0.0)
+# Analizamos si tenemos valores cero en empleo agricultura
+which(country_profiles$empl_agri == 0.0)
+# Analizamos si tenemos valores cero en empleo industria
+which(country_profiles$empl_industry == 0.0)
+# Analizamos si tenemos valores cero en empleo servicios
+which(country_profiles$empl_services == 0.0)
+# Analizamos si tenemos valores cero en educación
+which(country_profiles$educ_exp == 0.0)
+```
+Observamos si tenemos valores vacios
+
+```{r valores vacios}
 
 # Detectamos valores vacíos con is.na().
 paste("Valores vacios en población:")
@@ -138,6 +175,14 @@ country_profiles <- data.frame(country_profiles_og$country, country_profiles)
 
 # Imprimimos resumen
 summary(country_profiles)
+```
+Una vez realizado toda la limpieza se exportan dichos datos de interés a un nuevo archivo csv.
+
+```{r fichero csv tras limpieza}
+
+# Creamos el nuevo csv con los datos de interés
+write.csv(country_profiles, "C:/Userscarlo/OneDrive/Escritorio/country_profile_variables_modified.csv", row.names = FALSE)
+
 ```
 A continuación, estudiaremos la normalidad de los datos:
 
