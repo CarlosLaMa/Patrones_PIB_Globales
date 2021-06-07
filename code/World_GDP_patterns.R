@@ -268,20 +268,17 @@ plot(regressor, which=2)
 # Comprobamos homocedasticidad de los residuos.
 plot(regressor, which=3)
 
-Segundo análisis Coeficiente de correlación de Spearman
+Segundo análisis Test coeficiente de correlación de Spearman
 
-```{r Coeficiente de Spearman}
-
-# Realizamos el coeficiente de correlación para las variables PIB y el gasto público en educación
-cor(country_profiles$gdp, country_profiles$educ_exp)
+```{r Test coeficiente de Spearman}
 
 # Se realiza el test del coeficiente de correlación de Spearman entre el PIB y el gasto público en educación.
 cor.test(country_profiles$gdp,country_profiles$educ_exp, method="spearman")
 
-# Realizamos el coeficiente de correlación entre ambas variables población y población urbana
-cor(country_profiles$population, country_profiles$urban_pop)
-
 # Se realiza el test del coeficiente de correlación de Spearman entre la población y población urbana
 cor.test(country_profiles$population,country_profiles$urban_pop, method="spearman")
+
+# Se realiza el test del coeficiente de correlación de Spearman entre la población y población urbana
+cor.test(country_profiles$gdp,country_profiles$pop_dens, method="spearman")
 
 ```
