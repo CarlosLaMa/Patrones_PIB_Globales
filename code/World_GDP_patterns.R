@@ -300,7 +300,7 @@ Segundo análisis, Test coeficiente de correlación de Spearman entre PIB y vari
 
 ```{r spearman}
 # Almacenamos las correlaciones de Spearman en una matriz.
-corr.res <- cor(country_profiles[, c("gdp", "gdp_xcap", "gdp_growth", "urban_pop", "pop_dens", "educ_exp", "population")], method="spearman")
+corr.res <- cor(country_profiles[, c("gdp", "gdp_xcap", "gdp_growth", "urban_pop", "pop_dens", "educ_exp", "population", "pop_growth")], method="spearman")
 corr.res
 
 # Elaboramos el gráfico de correlaciones.
