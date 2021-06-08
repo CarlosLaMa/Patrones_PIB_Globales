@@ -267,8 +267,8 @@ métricas relacionadas con los tres sectores económicos principales de un país
 # Cargamos librerías necesarias
 library(rminer)
 
-# Dividimos datos en entrenamiento y validación, con un ratio de 2/3 vs 1/3.
-# Lo hacemos a través de gdp_xcap (variable dependiente)
+# Dividimos datos en entrenamiento y validación, con un ratio de 3/4.
+# Mantendremos los datos estratificados por región.
 h<-holdout(country_profiles$Region, ratio = 3/4, mode="order")
 data_train<-country_profiles[h$tr,]
 data_test<-country_profiles[h$ts,]
