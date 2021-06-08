@@ -16,7 +16,7 @@ Por último, se incluyen tres análisis estadísticos para comprobar comportamie
 
 **Dataset Original**
 
-Podemos encontrar el archivo CSV original de Kaggle en el siguiente enlace:\n
+Podemos encontrar el archivo CSV original de Kaggle en el siguiente enlace:
 https://www.kaggle.com/anuganjur/country-profile-data
 
 
