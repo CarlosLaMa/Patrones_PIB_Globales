@@ -1,5 +1,3 @@
-# CÓDIGO 
-
 ---
 title: "Práctica2 TyCdV de los Datos"
 author: "Carlos Lavado Mahia, Dionisio González Jiménez"
@@ -10,12 +8,12 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-
-En este primer apartado, cargaremos y prepararemos los datos, poniendo especial enfásis en el formato de las columnas, así como en la detección de outliers y de valores faltantes:
+Comenzamos cargando y preparando los datos:
 
 ```{r carga y preparación}
 # Cargamos el dataset.
-country_profiles_og<-read.csv("C:/Users/carlo/OneDrive/Escritorio/country_profile_variables.csv", sep=",", check.names=FALSE)
+# NOTA: Si se copia este código, es necesario indicar el directorio del CSV.
+country_profiles_og<-read.csv("country_profile_variables.csv", sep=",", check.names=FALSE)
 
 # Seleccionamos las variables de interés.
 country_profiles<-country_profiles_og[,c(1,2,4,5,7,8,9,10,11,12,13,14,15,24,25,35)]
@@ -39,6 +37,7 @@ names(country_profiles)[names(country_profiles) == "Education: Government expend
 # Imprimimos un resumen inicial.
 summary(country_profiles)
 
+# Algunas columnas se han interpretado erróneamente.
 # Convertimos las columnas que no se han interpretado con el tipo deseada.
 country_profiles$Region<-as.factor(country_profiles$Region)
 country_profiles$pop_growth<-as.numeric(country_profiles$pop_growth)
@@ -51,9 +50,10 @@ country_profiles$educ_exp<-as.numeric(country_profiles$educ_exp)
 
 # Imprimimos de nuevo un resumen.
 summary(country_profiles)
-
 ```
-Realizamos un análisis para ver si tenemos valores iguales a 0
+
+Realizamos un análisis para ver si tenemos valores iguales a 0:
+
 ```{r valores iguales a 0}
 
 # Analizamos si tenemos valores cero en población
@@ -85,42 +85,45 @@ which(country_profiles$empl_services == 0.0)
 # Analizamos si tenemos valores cero en educación
 which(country_profiles$educ_exp == 0.0)
 ```
-Observamos si tenemos valores vacios
+Observamos si tenemos valores vacios, que cambiaremos a NA:
 
-```{r valores vacios}
+```{r valores vacíos}
 
 # Detectamos valores vacíos con is.na().
-paste("Valores vacios en población:")
+paste("Valores vacíos en población:")
 which(is.na(country_profiles$population))
-paste("Valores vacios en densidad población:")
+paste("Valores vacíos en densidad población:")
 which(is.na(country_profiles$pop_dens))
-paste("Valores vacios en crecimiento de población:")
+paste("Valores vacíos en crecimiento de población:")
 which(is.na(country_profiles$pop_growth))
-paste("Valores vacios en población urbana:")
+paste("Valores vacíos en población urbana:")
 which(is.na(country_profiles$urban_pop))
-paste("Valores vacios en PIB:")
+paste("Valores vacíos en PIB:")
 which(is.na(country_profiles$gdp))
-paste("Valores vacios en crecimiento del PIB:")
+paste("Valores vacíos en crecimiento del PIB:")
 which(is.na(country_profiles$gdp_growth))
-paste("Valores vacios en PIB per capita:")
+paste("Valores vacíos en PIB per capita:")
 which(is.na(country_profiles$gdp_xcap))
-paste("Valores vacios en sector agricultura:")
+paste("Valores vacíos en sector agricultura:")
 which(is.na(country_profiles$eco_agri))
-paste("Valores vacios en sector industria:")
+paste("Valores vacíos en sector industria:")
 which(is.na(country_profiles$eco_industry))
-paste("Valores vacios en sector servicios:")
+paste("Valores vacíos en sector servicios:")
 which(is.na(country_profiles$eco_services))
-paste("Valores vacios en empleo agricultura:")
+paste("Valores vacíos en empleo agricultura:")
 which(is.na(country_profiles$empl_agri))
-paste("Valores vacios en empleo industria:")
+paste("Valores vacíos en empleo industria:")
 which(is.na(country_profiles$empl_industry))
-paste("Valores vacios en empleo servicios:")
+paste("Valores vacíos en empleo servicios:")
 which(is.na(country_profiles$empl_services))
-paste("Valores vacios en educación:")
+paste("Valores vacíos en educación:")
 which(is.na(country_profiles$educ_exp))
 
-# Sustituimos los valores vacíos por NA.
+```
 
+Observamos la presencia de valores extremos, para ver si son razonables:
+
+```{r valores extremos}
 # Comprobamos los valores extremos con boxplot_stats$out.
 # Esta función devuelve los valores que están a más de 1.5 de distancia del IQR.
 paste("Valores extremos de la población:")
@@ -180,8 +183,8 @@ Una vez realizado toda la limpieza se exportan dichos datos de interés a un nue
 
 ```{r fichero csv tras limpieza}
 
-# Creamos el nuevo csv con los datos de interés
-write.csv(country_profiles, "C:/Userscarlo/OneDrive/Escritorio/country_profile_variables_modified.csv", row.names = FALSE)
+# Creamos el nuevo csv con los datos de interés (es necesario indicar la dirección deseada).
+write.csv(country_profiles, "/country_profile_variables_modified.csv", row.names = FALSE)
 
 ```
 A continuación, estudiaremos la normalidad de los datos:
@@ -253,34 +256,6 @@ qqline(country_profiles$empl_services, col = "red")
 qqnorm(country_profiles$educ_exp, main = "Educ_Exp")
 qqline(country_profiles$educ_exp, col = "red")
 ```
-Para comprobar la igualdad de varianzas utilizamos el test fligner-killen
-
-```{r test fligner-killen}
-# Se comprueba la homogeneidad de las varianzas entre las variables PIB per cápita y sector agricultura
-fligner.test(gdp_xcap~eco_agri, data=country_profiles)
-# Aceptamos la hipótesis nula y confirmamos la igualdad de las varianzas entre las variables.
-
-# Se comprueba la homogeneidad de las varianzas entre las variables PIB per cápita y sector industria
-fligner.test(gdp_xcap~eco_industry, data=country_profiles)
-# Aceptamos la hipótesis nula y confirmamos la igualdad de las varianzas entre las variables.
-
-# Se comprueba la homogeneidad de las varianzas entre las variables PIB per cápita y sector servicios
-fligner.test(gdp_xcap~eco_services, data=country_profiles)
-# Aceptamos la hipótesis nula y confirmamos la igualdad de las varianzas entre las variables.
-
-# Se comprueba la homogeneidad de las varianzas entre las variables PIB per cápita y la variable empleo en agricultura
-fligner.test(gdp_xcap~empl_agri, data=country_profiles)
-# Aceptamos la hipótesis nula y confirmamos la igualdad de las varianzas entre las variables.
-
-# Se comprueba la homogeneidad de las varianzas entre las variables PIB per cápita y la variable empleo en industria
-fligner.test(gdp_xcap~empl_industry, data=country_profiles)
-# Aceptamos la hipótesis nula y confirmamos la igualdad de las varianzas entre las variables.
-
-# Se comprueba la homogeneidad de las varianzas entre las variables PIB per cápita y la variable empleo en servicios
-fligner.test(gdp_xcap~empl_services, data=country_profiles)
-# Aceptamos la hipótesis nula y confirmamos la igualdad de las varianzas entre las variables.
-
-```
 
 Realizamos el primer análisis, una regresión lineal múltiple en la cual intentaremos predecir PIB por cápita a través de las
 métricas relacionadas con los tres sectores económicos principales de un país (agricultura, industria, servicios).
@@ -291,7 +266,7 @@ library(rminer)
 
 # Dividimos datos en entrenamiento y validación, con un ratio de 2/3 vs 1/3.
 # Lo hacemos a través de gdp_xcap (variable dependiente)
-h<-holdout(country_profiles$gdp_xcap, ratio = 2/3, mode="stratified")
+h<-holdout(country_profiles$Region, ratio = 3/4, mode="order")
 data_train<-country_profiles[h$tr,]
 data_test<-country_profiles[h$ts,]
 
@@ -313,17 +288,56 @@ plot(regressor, which=2)
 # Comprobamos homocedasticidad de los residuos.
 plot(regressor, which=3)
 
-Segundo análisis Test coeficiente de correlación de Spearman
-
-```{r Test coeficiente de Spearman}
-
-# Se realiza el test del coeficiente de correlación de Spearman entre el PIB y el gasto público en educación.
-cor.test(country_profiles$gdp,country_profiles$educ_exp, method="spearman")
-
-# Se realiza el test del coeficiente de correlación de Spearman entre la población y población urbana
-cor.test(country_profiles$population,country_profiles$urban_pop, method="spearman")
-
-# Se realiza el test del coeficiente de correlación de Spearman entre la población y población urbana
-cor.test(country_profiles$gdp,country_profiles$pop_dens, method="spearman")
-
+# Gráfico de representación del modelo:
+library(car)
+avPlots(regressor)
 ```
+
+Segundo análisis, Test coeficiente de correlación de Spearman entre PIB y variables demográficas:
+
+```{r spearman}
+# Almacenamos las correlaciones de Spearman en una matriz.
+corr.res <- cor(country_profiles[, c("gdp", "gdp_xcap", "gdp_growth", "urban_pop", "pop_dens", "educ_exp", "population")], method="spearman")
+corr.res
+
+# Elaboramos el gráfico de correlaciones.
+library(corrplot)
+corrplot.mixed(corr.res, upper="ellipse", tl.cex = 0.6)
+```
+
+A continuación presentamos el tercer análisis, un contraste de medias. Aquí, comprobaremos si la media de crecimiento de población de dos regiones puede ser considerada igual, con un 95% de confianza.
+
+```{r contraste de hipótesis}
+# Comprobamos igualdad de varianzas
+fligner.test(gdp_growth ~ Region, data=country_profiles)
+
+# No hay diferencias de vaianza significativas entre regiones para la variable gdp_growth.
+# Separamos datos por regiones
+country_profiles_europe <- country_profiles[which(country_profiles$Region=="WesternEurope" | country_profiles$Region=="EasternEurope" | country_profiles$Region=="NorthernEurope" | country_profiles$Region=="SouthernEurope"), ]
+country_profiles_asia <- country_profiles[which(country_profiles$Region=="WesternAsia" | country_profiles$Region=="EasternAsia" | country_profiles$Region=="CentralAsia" | country_profiles$Region=="SouthernAsia" | country_profiles$Region=="South-easternAsia"), ]
+
+# Primero, aplicamos un test Chi cuadrado para saber si las dos variables son dependientes entre ellas.
+# Dependiendo del resultado, emplearemos Wilcoxon o Mann-Whitney.
+chisq.test(table(country_profiles_europe, country_profiles_asia))
+                 
+# Obtenemos p-value muy grande, de entre 20% y 30%
+# Por tanto, no podemos rechazar hipótesis nula (independencia).
+
+# Mann-Whitney se aplica con la misma función wilcox.test(), pasando como parámetros dos grupos de datos
+# independientes, y aplicando paired=FALSE
+wilcox.test(country_profiles_europe$gdp_growth, country_profiles_asia$gdp_growth, paired=FALSE)
+
+# p-value muy poco superior a 0.05. Por tanto, no podemos rechazar la hipótesis nula, y no podemos asegurar que Europa o Asia no estén experimentando crecimientos similares,
+# si bien por muy poco.
+
+# Comprobemos visualmente la diferencia de medianas:
+
+country_profiles_europe$Region <- "Europe"
+country_profiles_asia$Region <- "Asia"
+country_profiles_eurasia = rbind(country_profiles_europe, country_profiles_asia)
+country_profiles_eurasia$Region <- factor(country_profiles_eurasia$Region)
+plot(country_profiles_eurasia$Region, country_profiles_eurasia$gdp_growth, main = "Comparativa de medianas", xlab = "Región", ylab = "gdp_growth")
+```
+
+
+
