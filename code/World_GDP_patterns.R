@@ -8,6 +8,7 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
 Comenzamos cargando y preparando los datos:
 
 ```{r carga y preparación}
@@ -85,6 +86,7 @@ which(country_profiles$empl_services == 0.0)
 # Analizamos si tenemos valores cero en educación
 which(country_profiles$educ_exp == 0.0)
 ```
+
 Observamos si tenemos valores vacíos:
 
 ```{r valores vacíos}
@@ -118,7 +120,6 @@ paste("Valores vacíos en empleo servicios:")
 which(is.na(country_profiles$empl_services))
 paste("Valores vacíos en educación:")
 which(is.na(country_profiles$educ_exp))
-
 ```
 
 Observamos la presencia de valores extremos, para ver si son razonables:
@@ -180,14 +181,15 @@ country_profiles <- data.frame(country_profiles_og$country, country_profiles)
 # Imprimimos resumen
 summary(country_profiles)
 ```
+
 Una vez realizado toda la limpieza se exportan dichos datos de interés a un nuevo archivo csv.
 
 ```{r fichero csv tras limpieza}
 
 # Creamos el nuevo csv con los datos de interés (es necesario indicar la dirección deseada).
 write.csv(country_profiles, "/country_profile_variables_modified.csv", row.names = FALSE)
-
 ```
+
 A continuación, estudiaremos la normalidad de los datos:
 
 ```{r normalidad}
