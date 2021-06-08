@@ -85,7 +85,7 @@ which(country_profiles$empl_services == 0.0)
 # Analizamos si tenemos valores cero en educación
 which(country_profiles$educ_exp == 0.0)
 ```
-Observamos si tenemos valores vacios, que cambiaremos a NA:
+Observamos si tenemos valores vacíos:
 
 ```{r valores vacíos}
 
@@ -173,6 +173,7 @@ library(missForest)
 # Aplicamos algoritmo a los datos para limpiarlos.
 country_profiles_clean <- missForest(country_profiles)
 country_profiles <- country_profiles_clean$ximp
+
 # Añadimos de nuevo la columna country.
 country_profiles <- data.frame(country_profiles_og$country, country_profiles)
 
@@ -305,9 +306,9 @@ library(corrplot)
 corrplot.mixed(corr.res, upper="ellipse", tl.cex = 0.6)
 ```
 
-A continuación presentamos el tercer análisis, un contraste de medianas. Aquí, comprobaremos si la media de crecimiento de población de dos regiones puede ser considerada igual, con un 95% de confianza.
+A continuación presentamos el tercer análisis, un contraste de medianas. Aquí, comprobaremos si la mediana de crecimiento de PIB de dos regiones coincide, con un 95% de confianza.
 
-```{r contraste de hipótesis}
+```{r mann-whitney}
 # Comprobamos igualdad de varianzas.
 fligner.test(gdp_growth ~ Region, data=country_profiles)
 
@@ -316,7 +317,7 @@ fligner.test(gdp_growth ~ Region, data=country_profiles)
 country_profiles_europe <- country_profiles[which(country_profiles$Region=="WesternEurope" | country_profiles$Region=="EasternEurope" | country_profiles$Region=="NorthernEurope" | country_profiles$Region=="SouthernEurope"), ]
 country_profiles_asia <- country_profiles[which(country_profiles$Region=="WesternAsia" | country_profiles$Region=="EasternAsia" | country_profiles$Region=="CentralAsia" | country_profiles$Region=="SouthernAsia" | country_profiles$Region=="South-easternAsia"), ]
 
-# Primero, aplicamos un test Chi cuadrado para saber si las dos variables son dependientes entre ellas.
+# Primero, aplicamos un test Chi-cuadrado para saber si las dos variables son dependientes entre ellas.
 # Dependiendo del resultado, emplearemos Wilcoxon o Mann-Whitney.
 chisq.test(table(country_profiles_europe, country_profiles_asia))
                  
@@ -324,7 +325,7 @@ chisq.test(table(country_profiles_europe, country_profiles_asia))
 # Por tanto, no podemos rechazar hipótesis nula (independencia).
 
 # Mann-Whitney se aplica con la misma función wilcox.test(), pasando como parámetros dos grupos de datos
-# independientes, y aplicando paired=FALSE.
+# independientes, y aplicando el parámetro paired=FALSE.
 wilcox.test(country_profiles_europe$gdp_growth, country_profiles_asia$gdp_growth, paired=FALSE)
 
 # p-value muy poco superior a 0.05. Por tanto, no podemos rechazar la hipótesis nula, y no podemos asegurar que Europa o Asia no estén experimentando crecimientos similares,
