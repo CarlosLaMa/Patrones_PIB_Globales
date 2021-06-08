@@ -16,9 +16,16 @@ Por último, se incluyen tres análisis estadísticos para comprobar comportamie
 
 **Dataset Original**
 
-Podemos encontrar el archivo CSV original de Kaggle en el siguiente enlace:
+Podemos encontrar el archivo CSV original de Kaggle en el siguiente enlace: <br />
 https://www.kaggle.com/anuganjur/country-profile-data
 
+**Librerías**
+
+Para poder ejecutar el código, se necesita cargar las siguientes librerías: <br />
+library(missForest) <br />
+library(rminer) <br />
+library(car) <br />
+library(corrplot) <br />
 
 
 
